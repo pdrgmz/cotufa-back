@@ -94,7 +94,7 @@ public class MoviesController {
 	}
 	
 	@ApiOperation(value = "Modify details of a movie")
-	@PreAuthorize("hasAnyAuthority('GOD', 'CREATOR')")
+	@PreAuthorize("hasAnyAuthority('CREATOR')")
 	@RequestMapping(method = RequestMethod.PATCH, path = "/movies/{id}")
 	public ResponseEntity patchMovie(@PathVariable("id") Integer id, @RequestBody Movie newMovie) {
 		
@@ -117,7 +117,7 @@ public class MoviesController {
 	
 	
 	@ApiOperation(value = "Delete a movie")
-	@PreAuthorize("hasAnyAuthority('GOD', 'CREATOR')")
+	@PreAuthorize("hasAnyAuthority('CREATOR')")
 	@RequestMapping(method = RequestMethod.DELETE, path = "/movies/{id}")
 	public ResponseEntity deleteMovie(@PathVariable("id") Integer id) {  
 		 
@@ -129,7 +129,7 @@ public class MoviesController {
 	
 	
 	@ApiOperation(value = "Create a movie with its details")
-	@PreAuthorize("hasAnyAuthority('GOD', 'CREATOR')")
+	@PreAuthorize("hasAnyAuthority('CREATOR')")
 	@RequestMapping(method = RequestMethod.POST, path = "/movies")
 	public ResponseEntity saveMovie(@RequestBody Movie movie) {		
 		

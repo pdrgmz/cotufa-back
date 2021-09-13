@@ -1,5 +1,6 @@
 package com.cotufa.models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +30,18 @@ public class CustomUserDetails implements UserDetails{
 		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.active = true;
-		this.authorities = Arrays.asList( new SimpleGrantedAuthority(user.getRole()) );	
+		
+		String[] roles = user.getRole();
+		List<GrantedAuthority> auth = new ArrayList<>();
+		
+		for (String role : roles) {
+			System.out.println(role);
+			
+			auth.add( new SimpleGrantedAuthority(role));
+		}
+		
+		this.authorities = auth;
+				
 		
 	}
 

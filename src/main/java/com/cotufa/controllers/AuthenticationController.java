@@ -77,8 +77,8 @@ public class AuthenticationController {
 		if( user.getPassword() == null) {
 			return new ResponseEntity(new GenericResponse("Password missing"), HttpStatus.BAD_REQUEST);
 		}
-		
-		User newUser = new User(null, user.getUsername(), user.getPassword(), "CREATOR");
+		String[] roles = {"CREATOR", "USER"};
+		User newUser = new User(null, user.getUsername(), user.getPassword(), roles);
 		User created = null;
 		try {
 			created = userRepository.save(newUser);	

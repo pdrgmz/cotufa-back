@@ -36,8 +36,11 @@ public class CotufaApplication {
 	//The first user of the app
 	@PostConstruct
 	public void initUsers() throws ParseException {
+		
+		String[] roles = {"GOD", "CREATOR", "USER"};
+		
 		List<User> users = Stream.of(
-				new User(null,"admin", "admin", "GOD")
+				new User(null,"admin", "admin", roles)
 				).collect(Collectors.toList());
 		userRepository.saveAll(users);	
 		
