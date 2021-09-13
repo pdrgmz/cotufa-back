@@ -1,9 +1,12 @@
 package com.cotufa.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,9 +38,10 @@ public class MoviesController {
 	@Autowired
 	MovieService movieService;	
 	
+	
 	@ApiOperation(value = "Get all movies")
 	@RequestMapping(method = RequestMethod.GET, path = "/movies")
-	private ResponseEntity<?> getAllMovies(			
+	public ResponseEntity<?> getAllMovies(			
 		
 			@RequestParam(required = false) String genre, // Filter by genre
 			@RequestParam(required = false) String title, // Filter by genre
@@ -72,14 +76,14 @@ public class MoviesController {
 	
 	@ApiOperation(value = "Get all genres from all movies")
 	@RequestMapping(method = RequestMethod.GET, path = "/genres")
-	private ResponseEntity<?> getAllGenres(	){		
+	public ResponseEntity<?> getAllGenres(	){		
 		return new ResponseEntity(movieService.getGrouped(), HttpStatus.OK);
 	}
 	
 	
 	@ApiOperation(value = "Get movie details")
 	@RequestMapping(method = RequestMethod.GET, path = "/movies/{id}")
-	private ResponseEntity getMovie(@PathVariable("id") Integer id) {  
+	public ResponseEntity getMovie(@PathVariable("id") Integer id) {  
 		
 		Movie movie = movieService.getById(id);
 		if(movie != null) {
@@ -90,8 +94,9 @@ public class MoviesController {
 	}
 	
 	@ApiOperation(value = "Modify details of a movie")
+	@PreAuthorize("hasAnyAuthority('GOD', 'CREATOR')")
 	@RequestMapping(method = RequestMethod.PATCH, path = "/movies/{id}")
-	private ResponseEntity patchMovie(@PathVariable("id") Integer id, @RequestBody Movie newMovie) {
+	public ResponseEntity patchMovie(@PathVariable("id") Integer id, @RequestBody Movie newMovie) {
 		
 		
 		//Find the stored movie
@@ -110,18 +115,23 @@ public class MoviesController {
 		return new ResponseEntity(oldMovie, HttpStatus.OK);
 	}
 	
+	
 	@ApiOperation(value = "Delete a movie")
+	@PreAuthorize("hasAnyAuthority('GOD', 'CREATOR')")
 	@RequestMapping(method = RequestMethod.DELETE, path = "/movies/{id}")
-	private ResponseEntity deleteMovie(@PathVariable("id") Integer id) {  
+	public ResponseEntity deleteMovie(@PathVariable("id") Integer id) {  
+		 
 		if( !movieService.delete(id) ) {
 			return new ResponseEntity(new GenericResponse("The movie could not be deleted"), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity(new GenericResponse("The movie has been deleted"), HttpStatus.OK);
 	} 
 	
+	
 	@ApiOperation(value = "Create a movie with its details")
+	@PreAuthorize("hasAnyAuthority('GOD', 'CREATOR')")
 	@RequestMapping(method = RequestMethod.POST, path = "/movies")
-	private ResponseEntity saveMovie(@RequestBody Movie movie) {		
+	public ResponseEntity saveMovie(@RequestBody Movie movie) {		
 		
 		if(movie.getTitle() == null) {
 			return new ResponseEntity(new GenericResponse("Movie title missing"), HttpStatus.BAD_REQUEST);

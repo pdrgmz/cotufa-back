@@ -37,7 +37,7 @@ public class CotufaApplication {
 	@PostConstruct
 	public void initUsers() throws ParseException {
 		List<User> users = Stream.of(
-				new User(null,"admin", "admin")
+				new User(null,"admin", "admin", "GOD")
 				).collect(Collectors.toList());
 		userRepository.saveAll(users);	
 		

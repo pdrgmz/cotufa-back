@@ -50,7 +50,7 @@ public class AuthenticationController {
 	
 	@ApiOperation(value = "Generate a JWT given a valid username and password")
 	@RequestMapping(method = RequestMethod.POST, path = "/token")
-	private ResponseEntity<?> createAuthToken(@RequestBody UserRequest user) throws Exception{
+	public ResponseEntity<?> createAuthToken(@RequestBody UserRequest user) throws Exception{
 		
 		try {			
 			authenticationManager.authenticate(
@@ -69,7 +69,7 @@ public class AuthenticationController {
 	
 	@ApiOperation(value = "Create a new user ")
 	@RequestMapping(method = RequestMethod.POST, path = "/user")
-	private ResponseEntity<?> createNewUser(@RequestBody UserRequest user) throws Exception{
+	public ResponseEntity<?> createNewUser(@RequestBody UserRequest user) throws Exception{
 		
 		if( user.getUsername() == null) {
 			return new ResponseEntity(new GenericResponse("Username missing"), HttpStatus.BAD_REQUEST);
@@ -77,14 +77,13 @@ public class AuthenticationController {
 		if( user.getPassword() == null) {
 			return new ResponseEntity(new GenericResponse("Password missing"), HttpStatus.BAD_REQUEST);
 		}
-
-		User newUser = new User(null, user.getUsername(), user.getPassword());
+		
+		User newUser = new User(null, user.getUsername(), user.getPassword(), "CREATOR");
 		User created = null;
 		try {
 			created = userRepository.save(newUser);	
 		} catch (Exception e) {
 			// TODO: handle exception
-			
 		}
 		
 		
