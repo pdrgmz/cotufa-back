@@ -71,7 +71,7 @@ public class MoviesController {
 	}
 	
 	@ApiOperation(value = "Get all genres from all movies")
-	@RequestMapping(method = RequestMethod.GET, path = "/movies/genres")
+	@RequestMapping(method = RequestMethod.GET, path = "/genres")
 	private ResponseEntity<?> getAllGenres(	){		
 		return new ResponseEntity(movieService.getGrouped(), HttpStatus.OK);
 	}

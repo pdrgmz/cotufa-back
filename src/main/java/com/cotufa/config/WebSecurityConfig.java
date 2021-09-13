@@ -39,6 +39,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 			.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
+								// Free authentication
+								.antMatchers(HttpMethod.GET, "/movies",
+										"/movies/*",
+										"/genres").permitAll()
 								// Permit authentication
 								.antMatchers("/token",
 										"/user").permitAll()
